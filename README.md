@@ -30,7 +30,7 @@ or Gradle:
 implementation("com.verifyinboxes:verifyinboxes-java:0.1.0")
 ```
 
-It needs Java 11 or later and brings one library, `com.fasterxml.jackson.core:jackson-databind` 2.18.2. Its packages
+It needs Java 11 or later and brings one library, `com.fasterxml.jackson.core:jackson-databind` 2.18.12. Its packages
 are `com.verifyinboxes` (the client), `com.verifyinboxes.models` (what the API returns) and
 `com.verifyinboxes.errors` (the exceptions); its module name is `com.verifyinboxes`.
 
