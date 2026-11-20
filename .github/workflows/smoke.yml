@@ -1,0 +1,40 @@
+name: Smoke
+
+# Every week (and on demand), the code on main against the live API: the account, one check and a two-address list
+# (src/test/java/com/verifyinboxes/SmokeTest.java). It needs the repository secret VERIFYINBOXES_SMOKE_API_KEY, a key
+# of an organisation with a few credits; without it, it says so and succeeds.
+on:
+  schedule:
+    - cron: "17 5 * * 1" # Mondays, 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    name: Against the live API
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VERIFYINBOXES_SMOKE_API_KEY: ${{ secrets.VERIFYINBOXES_SMOKE_API_KEY }}
+    steps:
+      - name: Without the secret there is nothing to run
+        if: env.VERIFYINBOXES_SMOKE_API_KEY == ''
+        run: echo "::notice::VERIFYINBOXES_SMOKE_API_KEY is not set, so the smoke test did not run."
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: env.VERIFYINBOXES_SMOKE_API_KEY != ''
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        if: env.VERIFYINBOXES_SMOKE_API_KEY != ''
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - if: env.VERIFYINBOXES_SMOKE_API_KEY != ''
+        run: ./mvnw -B test -Dtest=SmokeTest -Dsurefire.failIfNoSpecifiedTests=false

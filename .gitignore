@@ -1,0 +1,10 @@
+# Build output
+target/
+.mvn/wrapper/maven-wrapper.jar
+# Editors
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
