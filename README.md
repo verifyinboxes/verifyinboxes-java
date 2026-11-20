@@ -14,16 +14,7 @@ receive mail, one at a time or as lists of any size, and read the results.
 
 ## Install
 
-Not published yet: until the first release is on Maven Central, build it from a clone and install it into your
-local Maven repository:
-
-```bash
-git clone https://github.com/verifyinboxes/verifyinboxes-java
-cd verifyinboxes-java
-./mvnw -B install
-```
-
-Then, and once released, Maven:
+Maven:
 
 ```xml
 <dependency>
